@@ -2,16 +2,22 @@
 	import "./App.css";
 	import "bootstrap/dist/css/bootstrap.min.css";
 	import Header from "../Header/Header.svelte";
+	import { Router, Route, Link } from "svelte-navigator";
+	import Login from "../Login/Login.svelte";
 
-	export let name;
+	// function handleLogout() {
+	//   $user = null;
+	// }
 </script>
-
 <Header />
 
-<main>
-	<h1>Hello {name}!</h1>
-	<p>
-		Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn
-		how to build Svelte apps.
-	</p>
-</main>
+<Router basepath='/'>
+	<Route path="login" component={Login} />
+
+	<Route path="home">
+		<h3>Home</h3>
+		<p>Home sweet home...</p>
+	</Route>
+
+	
+</Router>

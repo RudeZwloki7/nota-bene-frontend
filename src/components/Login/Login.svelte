@@ -1,67 +1,25 @@
 <script>
-    import { fly } from "svelte/transition";
-
-    let email = "";
-    let password = "";
-    let error;
-
-    const handleLogin = async () => {
-        if (browserGet("refreshToken")) {
-            localStorage.removeItem("refreshToken");
-        }
-        const [jsonRes, err] = await post(fetch, `${BASE_API_URI}/login/`, {
-            user: {
-                email: email,
-                password: password,
-            },
+    let email = '', password = ''
+    const submit = async () => {
+        await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({
+                email,
+                password
+            })
         });
-        if (err) {
-            error = err;
-        } else if (jsonRes.user.tokens) {
-            browserSet("refreshToken", jsonRes.user.tokens.refresh);
-            notificationData.set("Login successful.");
-            await goto("/");
-        }
-    };
-    onMount(() => {
-        const notifyEl = document.getElementsByClassName("notification");
-
-        if (notifyEl && $notificationData !== "") {
-            setTimeout(() => {
-                notifyEl.display = "none";
-                notificationData.set("");
-            }, 5000);
-        }
-    });
+    }
 </script>
 
-<section
-    class="container"
-    in:fly={{ x: -100, duration: 500, delay: 500 }}
-    out:fly={{ duration: 500 }}
->
-    <h1>Login</h1>
-    {#if error}
-        <p class="center error">{error}</p>
-    {/if}
-    <form class="form" on:submit|preventDefault={handleLogin}>
-        <input
-            bind:value={email}
-            name="email"
-            type="email"
-            aria-label="Email address"
-            placeholder="Email address"
-        />
-        <input
-            bind:value={password}
-            name="password"
-            type="password"
-            aria-label="password"
-            placeholder="password"
-        />
-        <button class="btn" type="submit">Login</button>
-        <p class="center">
-            No account yet? <a href="/accounts/register">Get started</a>.
-        </p>
-    </form>
-</section>
+
+<form on:submit|preventDefault={submit}>
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <input bind:value={email} type="email" class="form-control" placeholder="Email" required>
+
+    <input bind:value={password} type="password" class="form-control" placeholder="Password" required>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+</form>
