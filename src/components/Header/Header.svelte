@@ -2,13 +2,18 @@
     import { Button, Navbar, NavbarBrand } from "sveltestrap";
     import "./Header.css";
     import { Router, Route, Link } from "svelte-navigator";
+    import {getContext} from 'svelte'
 
-    let is_authorized = false;
+
+    // const {user} = getContext('user');
+
+    // onDestroy(() => {
+	// 	if (user) user.remove();
+	// });
+
     let color = "#ff3e00";
 
-    function handleAuth() {
-        is_authorized = !is_authorized;
-    }
+
 </script>
 
 <Router>
@@ -17,7 +22,7 @@
             >Nota Bene</NavbarBrand
         >
         <div>
-            {#if !is_authorized}
+            {#if true}
                 <Link class='btn' to="login" style="background-color: {color}; text-decoration: none; color: white">Login</Link>
                 <Link class='btn' to="register" style="background-color: {color}; text-decoration: none; color: white">Register</Link>
                 

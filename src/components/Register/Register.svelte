@@ -1,4 +1,7 @@
 <script>
+    import { navigate } from "svelte-navigator";
+    import { x_access_token, x_refresh_token } from "../../stores";
+
     let name = "",
         email = "",
         password = "",
@@ -15,9 +18,15 @@
                 email,
                 password,
             }),
-        }).then((response) => {
-            console.log(response);
-        });
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                x_refresh_token.set(data["x-refresh-token"]);
+                x_access_token.set(data["x-access-token"]);
+            })
+            .then(() => {
+                navigate("/home", { replace: true });
+            });
     };
 
     const confirm = async () => {

@@ -1,4 +1,8 @@
 <script>
+    import { setContext } from "svelte";
+    import { x_access_token, x_refresh_token } from "../../stores";
+    import { navigate } from "svelte-navigator";
+
     let email = "",
         password = "";
     const submit = async () => {
@@ -9,9 +13,15 @@
                 email,
                 password,
             }),
-        }).then((response) => {
-            console.log(response);
-        });
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                x_refresh_token.set(data["x-refresh-token"]);
+                x_access_token.set(data["x-access-token"]);
+            })
+            .then(() => {
+                navigate("/home", { replace: true });
+            });
     };
 </script>
 
