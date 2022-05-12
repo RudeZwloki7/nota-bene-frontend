@@ -36,6 +36,24 @@
 
     const { open } = getContext("simple-modal");
     const showTask = (t) => open(Task, { ...t });
+
+    let selectedTask;
+
+    const handleUpdate = async (task) =>{
+        task.is_complete = !task.is_complete;
+        await fetch(`http://localhost:5000/task/${task.uid}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "x-refresh-token": $x_refresh_token,
+                "x-access-token": $x_access_token,
+            },
+            body: JSON.stringify({
+                ...task
+            }),
+        });
+    };
+
 </script>
 
 <div class="list-group">
@@ -50,7 +68,7 @@
         {#if !task.is_complete}
         <div class="d-flex flex-row">
             <button class="mr-3 d-inline" disabled>
-                <input type="checkbox" bind:checked={task.is_complete} />
+                <input type="checkbox" bind:checked={task.is_complete}  on:click="{handleUpdate(task)}"/>
             </button>
 
             <button
@@ -83,7 +101,7 @@
     {#if task.is_complete}
         <div class="d-flex flex-row">
             <button class="mr-3 d-inline" disabled>
-                <input type="checkbox" bind:checked={task.is_complete} />
+                <input type="checkbox" bind:checked={task.is_complete} on:click="{handleUpdate(task)}" />
             </button>
 
             <button

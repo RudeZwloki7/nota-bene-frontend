@@ -9,7 +9,7 @@
         date_expire,
         datetime_expire,
         is_complete = false;
-    
+
     // export let user_uid = "";
 
     console.log(is_complete)
@@ -32,7 +32,7 @@
         });
     };
 
-    const updateTask = async () => {
+    export const updateTask = async () => {
         await fetch(`http://localhost:5000/task/${uid}`, {
             method: "PATCH",
             headers: {
