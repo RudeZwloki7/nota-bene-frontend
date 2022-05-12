@@ -1,6 +1,8 @@
 <script>
     import Task from "../Task/Task.svelte";
+    import { getContext } from "svelte";
     import { x_access_token, x_refresh_token } from "../../stores.js";
+
     let tasks = [];
 
     const getTasks = async () => {
@@ -15,45 +17,48 @@
             .then((response) => response.json())
             .then((data) => {
                 tasks = data.tasks;
-                console.log(tasks);
                 return tasks;
             });
     };
 
     getTasks();
 
-    let showModal = false;
+    const { open } = getContext("simple-modal");
+    const showTask = (t) => open(Task, { ...t });
 </script>
 
-<!-- <button on:click={() => (showModal = true)}>Show Modal</button>
-    {#if showModal}
-        <div class="box" use:clickOutside on:outclick={() => (showModal = false)}>
-            Click outside me!
-        </div>
-    {/if} -->
-
 <div class="list-group">
-    {#each tasks as task}
-        <button
-            type="button"
-            class="list-group-item list-group-item-action row"
-        >
-            <div class="mr-3 d-inline">
-                <input
-                    type="checkbox"
-                    bind:checked={task.is_complete}
-                />
-            </div>
-            <div class='d-inline'>
-                <b>{task.label}</b>
-            </div>
+    <button
+        type="button"
+        class="list-group-item list-group-item-action tes"
+        on:click={showTask}
+        ><p class="font-italic">Create new task...</p></button
+    >
 
-            {#if task.datetime_expire}
-                <div class='ml-auto d-inline'><em class="">Expire at: {task.datetime_expire}</em></div>
-            {:else if task.date_expire}
-                <div class='ml-auto d-inline'><em>Expire at: {task.date_expire}</em></div>
-            {/if}
-        </button>
-        <Task {...task} />
+    {#each tasks as task}
+        <div class="d-flex flex-row">
+            <button class="mr-3 d-inline" disabled>
+                <input type="checkbox" bind:checked={task.is_complete} />
+            </button>
+
+            <button
+                class="list-group-item list-group-item-action"
+                on:click={showTask(task)}
+            >
+                <div class="d-inline">
+                    <b>{task.label}</b>
+                </div>
+
+                {#if task.datetime_expire}
+                    <div class="ml-auto d-inline">
+                        <em class="">Expire at: {task.datetime_expire}</em>
+                    </div>
+                {:else if task.date_expire}
+                    <div class="ml-auto d-inline">
+                        <em>Expire at: {task.date_expire}</em>
+                    </div>
+                {/if}
+            </button>
+        </div>
     {/each}
 </div>

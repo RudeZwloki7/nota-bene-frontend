@@ -5,7 +5,8 @@
 	import { Router, Route, Link } from "svelte-navigator";
 	import Login from "../Login/Login.svelte";
 	import Register from "../Register/Register.svelte";
-	import TaskList from "../TaskList/TaskList.svelte"
+	import TaskList from "../TaskList/TaskList.svelte";
+	import Modal from "svelte-simple-modal";
 
 	// function handleLogout() {
 	//   $user = null;
@@ -21,6 +22,6 @@
 	<Route path="home">
 		<!-- {#if } -->
 		<h1>Home page</h1>
-		<TaskList />
+		<Modal><TaskList /></Modal>
 	</Route>
 </Router>
