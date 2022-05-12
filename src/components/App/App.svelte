@@ -19,9 +19,9 @@
 	<Route path="login" component={Login} />
 	<Route path="register" component={Register} />
 
-	<Route path="home">
+	<Route path='home'>
 		<!-- {#if } -->
-		<h1>Home page</h1>
+		<h3>Home page</h3>
 		<Modal><TaskList /></Modal>
 	</Route>
 </Router>
