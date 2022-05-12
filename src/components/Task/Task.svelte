@@ -1,21 +1,15 @@
 <script>
-    let uid,
+    export let uid,
         label = "",
         content = "",
         date_expire = "",
         datetime_expire = "",
         is_complete = false;
 
-    let user_uid = "";
+    export let user_uid = "";
 </script>
 
-<div
-    class="modal fade bd-example-modal-lg"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="myLargeModalLabel"
-    aria-hidden="true"
->
+<div class="modal fade" id={uid}>
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <form class="w-50">
@@ -40,10 +34,7 @@
                     placeholder="Not setted"
                 />
 
-                <input
-                    type="radio"
-                    aria-label="Done"
-                />
+                <input type="radio" aria-label="Done" />
             </form>
         </div>
     </div>
