@@ -20,7 +20,7 @@
                 x_access_token.set(data["x-access-token"]);
             })
             .then(() => {
-                navigate("/home", { replace: true });
+                navigate("home", { replace: true });
             });
     };
 </script>

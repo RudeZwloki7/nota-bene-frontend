@@ -7,10 +7,6 @@
 	import Register from "../Register/Register.svelte";
 	import TaskList from "../TaskList/TaskList.svelte";
 	import Modal from "svelte-simple-modal";
-
-	// function handleLogout() {
-	//   $user = null;
-	// }
 </script>
 
 <Header />
@@ -19,7 +15,7 @@
 	<Route path="login" component={Login} />
 	<Route path="register" component={Register} />
 
-	<Route path='home'>
+	<Route path="home">
 		<!-- {#if } -->
 		<h3>Home page</h3>
 		<Modal><TaskList /></Modal>
