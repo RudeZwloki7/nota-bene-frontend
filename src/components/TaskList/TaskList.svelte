@@ -1,10 +1,10 @@
 <script>
     import Task from "../Task/Task.svelte";
     import { getContext, onMount } from "svelte";
-    import { x_access_token, x_refresh_token } from "../../stores.js";
+    import { x_access_token, x_refresh_token, tasks} from "../../stores.js";
     import { afterUpdate } from "svelte";
 
-    $: tasks = [];
+    $tasks;
 
     $: getTasks = async () => {
         await fetch("http://localhost:5000/tasks", {
@@ -17,8 +17,7 @@
         })
             .then((response) => response.json())
             .then((data) => {
-                tasks = data.tasks;
-                return tasks;
+                tasks.set(data.tasks);
             });
     };
 
@@ -32,17 +31,20 @@
             },
         });
 
-        tasks = tasks.splice();
+        for (var i = 0; i < $tasks.length; i++) {
+            if ($tasks[i].uid === taskId) {
+                var spliced = $tasks.splice(i, 1);
+            }
+        }
+        $tasks = [...$tasks];
     };
 
     const { open } = getContext("simple-modal");
     const showTask = (t) => open(Task, { ...t });
 
-    let selectedTask;
+    $: handleUpdate = async (task) => {
+        task.is_complete = !task.is_complete;
 
-    $:handleUpdate = async (task) => {
-        task.is_complete = !task.is_complete
-        console.log(tasks)
 
         await fetch(`http://localhost:5000/task/${task.uid}`, {
             method: "PATCH",
@@ -55,19 +57,15 @@
                 ...task,
             }),
         });
-        tasks = tasks
+        $tasks = [...$tasks];
     };
 
     onMount(async () => {
         getTasks();
     });
 
+    afterUpdate(() => console.log("Updated Tasklist"));
 </script>
-
-<svelte:head>
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"></script>
-</svelte:head>
 
 <div class="list-group">
     <button
@@ -77,7 +75,7 @@
         ><p class="font-italic">Create new task...</p></button
     >
 
-    {#each tasks as task}
+    {#each $tasks as task}
         {#if !task.is_complete}
             <div class="d-flex flex-row">
                 <button class="mr-3 d-inline" disabled>
@@ -117,7 +115,7 @@
 
 <h3>Completed tasks</h3>
 <div class="list-group">
-    {#each tasks as task}
+    {#each $tasks as task}
         {#if task.is_complete}
             <div class="d-flex flex-row">
                 <button class="mr-3 d-inline" disabled>

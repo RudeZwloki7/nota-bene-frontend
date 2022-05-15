@@ -1,7 +1,12 @@
 <script>
-    import { x_access_token, x_refresh_token } from "../../stores.js";
-    import {getContext} from 'svelte'
-    const { open, close } = getContext('simple-modal');
+    import { x_access_token, x_refresh_token, tasks } from "../../stores.js";
+    import {
+        afterUpdate,
+        createEventDispatcher,
+        getContext,
+        onDestroy,
+    } from "svelte";
+    const { open, close } = getContext("simple-modal");
 
     export let uid,
         label = "",
@@ -9,10 +14,6 @@
         date_expire,
         datetime_expire,
         is_complete = false;
-
-    // export let user_uid = "";
-
-    console.log(is_complete)
 
     const createTask = async () => {
         await fetch("http://localhost:5000/create_task", {
@@ -30,6 +31,31 @@
                 is_complete,
             }),
         });
+
+        let newTask = {
+            label,
+            content,
+            date_expire,
+            datetime_expire,
+            is_complete,
+        };
+        console.log(newTask);
+
+        close();
+        await fetch("http://localhost:5000/tasks", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "x-refresh-token": $x_refresh_token,
+                "x-access-token": $x_access_token,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                tasks.set(data.tasks);
+            });
+        
+        console.log($tasks);
     };
 
     export const updateTask = async () => {
@@ -48,8 +74,21 @@
                 is_complete,
             }),
         });
-    };
 
+        close();
+        for (var i = 0; i < $tasks.length; i++) {
+            if ($tasks[i].uid === uid) {
+                $tasks[i] = {
+                    uid,
+                    label,
+                    content,
+                    date_expire,
+                    datetime_expire,
+                    is_complete,
+                };
+            }
+        }
+    };
 </script>
 
 <form class="w-50">
@@ -74,16 +113,10 @@
         class="form-control mb-3"
         placeholder="Not setted"
     />
-    <btn 
-    class="btn btn-danger"
-    on:click="{close}">Cancel</btn>
+    <btn class="btn btn-danger" on:click={close}>Cancel</btn>
     {#if !uid}
-        <btn 
-        class="btn btn-primary"
-        on:click="{createTask}">Create</btn>
+        <btn class="btn btn-primary" on:click={createTask}>Create</btn>
     {:else}
-        <btn 
-        class="btn btn-success"
-        on:click={updateTask}>Update</btn>
+        <btn class="btn btn-success" on:click={updateTask}>Update</btn>
     {/if}
 </form>
