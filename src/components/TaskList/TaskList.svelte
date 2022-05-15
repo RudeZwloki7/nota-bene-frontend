@@ -1,7 +1,7 @@
 <script>
     import Task from "../Task/Task.svelte";
     import { getContext, onMount } from "svelte";
-    import { x_access_token, x_refresh_token, tasks} from "../../stores.js";
+    import { x_access_token, x_refresh_token, tasks } from "../../stores.js";
     import { afterUpdate } from "svelte";
 
     $tasks;
@@ -45,7 +45,6 @@
     $: handleUpdate = async (task) => {
         task.is_complete = !task.is_complete;
 
-
         await fetch(`http://localhost:5000/task/${task.uid}`, {
             method: "PATCH",
             headers: {
@@ -63,8 +62,6 @@
     onMount(async () => {
         getTasks();
     });
-
-    afterUpdate(() => console.log("Updated Tasklist"));
 </script>
 
 <div class="list-group">
@@ -95,15 +92,20 @@
                         <b>{task.label}</b>
                     </div>
 
-                    {#if task.datetime_expire}
-                        <div class="ml-auto d-inline">
-                            <em class="">Expire at: {task.datetime_expire}</em>
-                        </div>
-                    {:else if task.date_expire}
-                        <div class="ml-auto d-inline">
-                            <em>Expire at: {task.date_expire}</em>
-                        </div>
-                    {/if}
+                    <div class="ml-auto d-inline">
+                        {#if task.date_expire || task.time_expire}
+                            <em
+                                >Expire at:
+                                {#if task.date_expire}
+                                    {task.date_expire}
+                                {/if}
+
+                                {#if task.time_expire}
+                                    {task.time_expire}
+                                {/if}
+                            </em>
+                        {/if}
+                    </div>
                 </button>
                 <button class="mr-3 d-inline" on:click={deleteTask(task.uid)}>
                     ❌
@@ -135,9 +137,9 @@
                         <b>{task.label}</b>
                     </div>
 
-                    {#if task.datetime_expire}
+                    {#if task.time_expire}
                         <div class="ml-auto d-inline">
-                            <em class="">Expire at: {task.datetime_expire}</em>
+                            <em class="">Expire at: {task.time_expire}</em>
                         </div>
                     {:else if task.date_expire}
                         <div class="ml-auto d-inline">

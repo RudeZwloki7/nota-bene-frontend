@@ -12,7 +12,7 @@
         label = "",
         content = "",
         date_expire,
-        datetime_expire,
+        time_expire,
         is_complete = false;
 
     const createTask = async () => {
@@ -27,7 +27,7 @@
                 label,
                 content,
                 date_expire,
-                datetime_expire,
+                time_expire,
                 is_complete,
             }),
         });
@@ -36,7 +36,7 @@
             label,
             content,
             date_expire,
-            datetime_expire,
+            time_expire,
             is_complete,
         };
         console.log(newTask);
@@ -54,7 +54,7 @@
             .then((data) => {
                 tasks.set(data.tasks);
             });
-        
+
         console.log($tasks);
     };
 
@@ -70,7 +70,7 @@
                 label,
                 content,
                 date_expire,
-                datetime_expire,
+                time_expire,
                 is_complete,
             }),
         });
@@ -83,7 +83,7 @@
                     label,
                     content,
                     date_expire,
-                    datetime_expire,
+                    time_expire,
                     is_complete,
                 };
             }
@@ -110,6 +110,12 @@
     <input
         bind:value={date_expire}
         type="date"
+        class="form-control mb-3"
+        placeholder="Not setted"
+    />
+    <input
+        bind:value={time_expire}
+        type="time"
         class="form-control mb-3"
         placeholder="Not setted"
     />
