@@ -11,11 +11,12 @@
 	import Welcome from "../Welcome/Welcome.svelte";
 </script>
 
-<Header />
-
-<Router basepath="/">
+<Router>
+	<Header />
 	<Route path="login" component={Login} />
 	<Route path="register" component={Register} />
+	<Route path="welcome" component={Welcome} />
+	<Route path="/" component={Welcome} />
 
 	<Route path="home">
 		{#if $is_authorized}

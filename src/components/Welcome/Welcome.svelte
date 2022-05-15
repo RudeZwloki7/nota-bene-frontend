@@ -1,1 +1,4 @@
-<h1> Welcome Page</h1>
+<script>
+</script>
+
+<h1>Welcome Page</h1>

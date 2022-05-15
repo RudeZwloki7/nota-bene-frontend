@@ -1,6 +1,6 @@
 <script>
-    import { navigate } from "svelte-navigator";
-    import { x_access_token, x_refresh_token, is_authorized } from "../../stores";
+    import { useNavigate } from "svelte-navigator";
+    import { x_access_token, x_refresh_token, is_authorized, user_name } from "../../stores";
 
     let name = "",
         email = "",
@@ -8,6 +8,8 @@
         password_submit = "";
 
     let valid = false;
+
+    const navigate = useNavigate();
 
     const submit = async () => {
         await fetch("http://localhost:5000/register", {
@@ -19,16 +21,8 @@
                 password,
             }),
         })
-            .then((response) => response.json())
-            .then((data) => {
-                x_refresh_token.set(data["x-refresh-token"]);
-                x_access_token.set(data["x-access-token"]);
-                $is_authorized = true;
-                let decoded = jwt_decode($x_access_token);
-                $user_name = decoded.name;
-            })
             .then(() => {
-                navigate("/home", { replace: true });
+                navigate("/login", { replace: true });
             });
     };
 
@@ -38,7 +32,6 @@
                 valid = true;
             }
         }
-        console.log(valid);
     };
 </script>
 
