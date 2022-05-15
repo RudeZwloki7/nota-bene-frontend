@@ -1,13 +1,13 @@
 <script>
     import Task from "../Task/Task.svelte";
     import { getContext, onMount } from "svelte";
-    import { x_access_token, x_refresh_token, tasks } from "../../stores.js";
+    import { x_access_token, x_refresh_token, tasks, API_URL } from "../../stores.js";
     import { afterUpdate } from "svelte";
 
     $tasks;
 
     $: getTasks = async () => {
-        await fetch(`${process.env.API_URL}/tasks`, {
+        await fetch(`${$API_URL}/tasks`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -22,7 +22,7 @@
     };
 
     const deleteTask = async (taskId) => {
-        await fetch(`${process.env.API_URL}/task/${taskId}`, {
+        await fetch(`${$API_URL}/task/${taskId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -45,7 +45,7 @@
     $: handleUpdate = async (task) => {
         task.is_complete = !task.is_complete;
 
-        await fetch(`${process.env.API_URL}/task/${task.uid}`, {
+        await fetch(`${$API_URL}/task/${task.uid}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

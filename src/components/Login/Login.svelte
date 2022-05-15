@@ -1,6 +1,6 @@
 <script>
     import { setContext } from "svelte";
-    import { x_access_token, x_refresh_token, is_authorized, user_name } from "../../stores";
+    import { x_access_token, x_refresh_token, is_authorized, user_name, API_URL} from "../../stores";
     import { useNavigate } from "svelte-navigator";
     import jwt_decode from "jwt-decode";
 
@@ -9,7 +9,7 @@
     let email = "",
         password = "";
     const submit = async () => {
-        await fetch(`${process.env.API_URL}/login`, {
+        await fetch(`${$API_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

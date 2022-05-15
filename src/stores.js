@@ -5,3 +5,4 @@ export const x_refresh_token = writable('');
 export let tasks = writable([]);
 export let is_authorized = writable(false);
 export let user_name = writable('')
+export let API_URL = writable(process.env.API_URL)

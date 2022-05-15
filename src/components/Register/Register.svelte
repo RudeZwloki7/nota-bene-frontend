@@ -1,6 +1,6 @@
 <script>
     import { useNavigate } from "svelte-navigator";
-    import { x_access_token, x_refresh_token, is_authorized, user_name } from "../../stores";
+    import { x_access_token, x_refresh_token, is_authorized, user_name, API_URL } from "../../stores";
 
     let name = "",
         email = "",
@@ -12,7 +12,7 @@
     const navigate = useNavigate();
 
     const submit = async () => {
-        await fetch(`${process.env.API_URL}/register`, {
+        await fetch(`${$API_URL}/register`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

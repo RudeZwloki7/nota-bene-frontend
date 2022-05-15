@@ -1,5 +1,5 @@
 <script>
-    import { x_access_token, x_refresh_token, tasks } from "../../stores.js";
+    import { x_access_token, x_refresh_token, tasks, API_URL } from "../../stores.js";
     import {
         afterUpdate,
         createEventDispatcher,
@@ -16,7 +16,7 @@
         is_complete = false;
 
     const createTask = async () => {
-        await fetch(`${process.env.API_URL}/create_task`, {
+        await fetch(`${$API_URL}/create_task`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -42,7 +42,7 @@
         console.log(newTask);
 
         close();
-        await fetch(`${process.env.API_URL}/tasks`, {
+        await fetch(`${$API_URL}/tasks`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -59,7 +59,7 @@
     };
 
     export const updateTask = async () => {
-        await fetch(`${process.env.API_URL}/task/${uid}`, {
+        await fetch(`${$API_URL}/task/${uid}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
