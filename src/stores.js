@@ -5,4 +5,4 @@ export const x_refresh_token = writable('');
 export let tasks = writable([]);
 export let is_authorized = writable(false);
 export let user_name = writable('')
-export let API_URL = writable('https://dashboard.heroku.com/apps/notabene-backend')
+export let API_URL = writable('https://notabene-backend.herokuapp.com')
