@@ -1,6 +1,12 @@
 <script>
     import { useNavigate } from "svelte-navigator";
-    import { x_access_token, x_refresh_token, is_authorized, user_name, API_URL } from "../../stores";
+    import {
+        x_access_token,
+        x_refresh_token,
+        is_authorized,
+        user_name,
+        API_URL,
+    } from "../../stores";
 
     let name = "",
         email = "",
@@ -21,8 +27,22 @@
                 password,
             }),
         })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    response.json().then((data) => {
+                        alert(data.msg);
+                    });
+                }
+            })
             .then(() => {
                 navigate("/login", { replace: true });
+            })
+            .catch((error) => {
+                error.json().then((err) => {
+                    console.log(err.msg);
+                });
             });
     };
 

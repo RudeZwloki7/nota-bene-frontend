@@ -1,6 +1,12 @@
 <script>
     import { setContext } from "svelte";
-    import { x_access_token, x_refresh_token, is_authorized, user_name, API_URL} from "../../stores";
+    import {
+        x_access_token,
+        x_refresh_token,
+        is_authorized,
+        user_name,
+        API_URL,
+    } from "../../stores";
     import { useNavigate } from "svelte-navigator";
     import jwt_decode from "jwt-decode";
 
@@ -17,16 +23,28 @@
                 password,
             }),
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    response.json().then((data) => {
+                        alert(data.msg);
+                    });
+                }
+            })
             .then((data) => {
-                x_refresh_token.set(data["x-refresh-token"]);
-                x_access_token.set(data["x-access-token"]);
-                $is_authorized = true;
-                let decoded = jwt_decode($x_access_token);
-                $user_name = decoded.username;
+                if (data) {
+                    x_refresh_token.set(data["x-refresh-token"]);
+                    x_access_token.set(data["x-access-token"]);
+                    $is_authorized = true;
+                    let decoded = jwt_decode($x_access_token);
+                    $user_name = decoded.username;
+                }
             })
             .then(() => {
-                navigate("/home", { replace: true });
+                if ($is_authorized) {
+                    navigate("/home", { replace: true });
+                }
             });
     };
 </script>
