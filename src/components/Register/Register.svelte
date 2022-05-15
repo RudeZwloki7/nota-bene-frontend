@@ -1,6 +1,6 @@
 <script>
     import { navigate } from "svelte-navigator";
-    import { x_access_token, x_refresh_token } from "../../stores";
+    import { x_access_token, x_refresh_token, is_authorized } from "../../stores";
 
     let name = "",
         email = "",
@@ -23,6 +23,9 @@
             .then((data) => {
                 x_refresh_token.set(data["x-refresh-token"]);
                 x_access_token.set(data["x-access-token"]);
+                $is_authorized = true;
+                let decoded = jwt_decode($x_access_token);
+                $user_name = decoded.name;
             })
             .then(() => {
                 navigate("/home", { replace: true });

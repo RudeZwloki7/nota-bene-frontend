@@ -3,16 +3,14 @@
     import "./Header.css";
     import { Router, Route, Link } from "svelte-navigator";
     import {getContext} from 'svelte'
-
-
-    // const {user} = getContext('user');
-
-    // onDestroy(() => {
-	// 	if (user) user.remove();
-	// });
+    import {is_authorized, user_name} from '../../stores.js'
 
     let color = "#ff3e00";
 
+    const handleAuth = async () =>{
+        $is_authorized = false;
+        $user_name = "undefined";
+    }
 
 </script>
 
@@ -22,13 +20,11 @@
             >Nota Bene</NavbarBrand
         >
         <div>
-            {#if true}
+            {#if !$is_authorized}
                 <Link class='btn' to="login" style="background-color: {color}; text-decoration: none; color: white">Login</Link>
                 <Link class='btn' to="register" style="background-color: {color}; text-decoration: none; color: white">Register</Link>
-                
-                <!-- <Button style="background-color: {color};">Register</Button> -->
             {:else}
-                <h4 class="d-inline p-2">Hello, user</h4>
+                <h4 class="d-inline p-2">Hello, {$user_name}</h4>
                 <Button style="background-color: {color};" on:click={handleAuth}
                     >Logout</Button
                 >

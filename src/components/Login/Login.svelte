@@ -1,7 +1,8 @@
 <script>
     import { setContext } from "svelte";
-    import { x_access_token, x_refresh_token } from "../../stores";
+    import { x_access_token, x_refresh_token, is_authorized, user_name } from "../../stores";
     import { navigate } from "svelte-navigator";
+    import jwt_decode from "jwt-decode";
 
     let email = "",
         password = "";
@@ -18,6 +19,10 @@
             .then((data) => {
                 x_refresh_token.set(data["x-refresh-token"]);
                 x_access_token.set(data["x-access-token"]);
+                $is_authorized = true;
+                let decoded = jwt_decode($x_access_token);
+                console.log(decoded)
+                $user_name = decoded.username;
             })
             .then(() => {
                 navigate("home", { replace: true });
