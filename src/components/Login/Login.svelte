@@ -9,7 +9,7 @@
     let email = "",
         password = "";
     const submit = async () => {
-        await fetch("http://localhost:5000/login", {
+        await fetch(`${process.env.API_URL}/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

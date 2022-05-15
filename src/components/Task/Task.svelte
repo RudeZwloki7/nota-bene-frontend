@@ -16,7 +16,7 @@
         is_complete = false;
 
     const createTask = async () => {
-        await fetch("http://localhost:5000/create_task", {
+        await fetch(`${process.env.API_URL}/create_task`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -42,7 +42,7 @@
         console.log(newTask);
 
         close();
-        await fetch("http://localhost:5000/tasks", {
+        await fetch(`${process.env.API_URL}/tasks`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -59,7 +59,7 @@
     };
 
     export const updateTask = async () => {
-        await fetch(`http://localhost:5000/task/${uid}`, {
+        await fetch(`${process.env.API_URL}/task/${uid}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",

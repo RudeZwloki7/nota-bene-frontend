@@ -7,7 +7,7 @@
     $tasks;
 
     $: getTasks = async () => {
-        await fetch("http://localhost:5000/tasks", {
+        await fetch(`${process.env.API_URL}/tasks`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -22,7 +22,7 @@
     };
 
     const deleteTask = async (taskId) => {
-        await fetch(`http://localhost:5000/task/${taskId}`, {
+        await fetch(`${process.env.API_URL}/task/${taskId}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -45,7 +45,7 @@
     $: handleUpdate = async (task) => {
         task.is_complete = !task.is_complete;
 
-        await fetch(`http://localhost:5000/task/${task.uid}`, {
+        await fetch(`${process.env.API_URL}/task/${task.uid}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
