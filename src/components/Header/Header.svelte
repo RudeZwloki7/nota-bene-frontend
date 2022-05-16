@@ -18,7 +18,7 @@
 <Navbar>
     <div
         style="color: {color};"
-        class="navbar-brand"
+        class="navbar-brand font-weight-bold"
         on:click={() => navigate("/welcome")}
     >
         Nota Bene

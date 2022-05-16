@@ -7,7 +7,7 @@
         user_name,
         API_URL,
     } from "../../stores";
-    import { useNavigate } from "svelte-navigator";
+    import { Link, useNavigate } from "svelte-navigator";
     import jwt_decode from "jwt-decode";
 
     const navigate = useNavigate();
@@ -64,10 +64,16 @@
         <input
             bind:value={password}
             type="password"
-            class="form-control mb-5"
+            class="form-control mb-3"
             placeholder="Password"
             required
         />
+        <p class="text-center text-muted mb-5 mb-0">
+            Don't have an account?
+            <Link to="/register" class="fw-bold text-body">
+                <u>Register now</u>
+            </Link>
+        </p>
 
         <button class="w-100 btn btn-lg btn-primary" type="submit"
             >Sign in</button

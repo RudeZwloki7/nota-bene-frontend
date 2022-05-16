@@ -2,7 +2,6 @@
     import Task from "../Task/Task.svelte";
     import { getContext, onMount } from "svelte";
     import { x_access_token, x_refresh_token, tasks, API_URL } from "../../stores.js";
-    import { afterUpdate } from "svelte";
 
     $tasks;
 
@@ -115,7 +114,7 @@
     {/each}
 </div>
 
-<h3>Completed tasks</h3>
+<h2 class="my-3">Completed tasks</h2>
 <div class="list-group">
     {#each $tasks as task}
         {#if task.is_complete}

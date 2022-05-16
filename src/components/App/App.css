@@ -12,6 +12,17 @@ h1 {
     font-weight: 100;
 }
 
+h2 {
+    color: #ff3e00; 
+    font-size: 4em;
+    font-weight: 100;
+}
+body{
+    background-image: url(https://t4.ftcdn.net/jpg/03/43/37/67/360_F_343376703_QHejNfqdvv12WwHkxS6Ts19nF2aIYuEo.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 @media (min-width: 640px) {
     main {
         max-width: none;

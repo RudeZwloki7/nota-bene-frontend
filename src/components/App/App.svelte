@@ -13,17 +13,19 @@
 
 <Router>
 	<Header />
-	<Route path="login" component={Login} />
-	<Route path="register" component={Register} />
-	<Route path="welcome" component={Welcome} />
-	<Route path="/" component={Welcome} />
+	<div class="px-3">
+		<Route path="login" component={Login} />
+		<Route path="register" component={Register} />
+		<Route path="welcome" component={Welcome} />
+		<Route path="/" component={Welcome} />
 
-	<Route path="home">
-		{#if $is_authorized}
-			<h3>Home page</h3>
-			<Modal><TaskList /></Modal>
-		{:else}
-			<Welcome />
-		{/if}
-	</Route>
+		<Route path="home">
+			{#if $is_authorized}
+				<h2 class="my-3">Home page</h2>
+				<Modal><TaskList /></Modal>
+			{:else}
+				<Welcome />
+			{/if}
+		</Route>
+	</div>
 </Router>
